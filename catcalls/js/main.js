@@ -140,10 +140,12 @@ function positionDivs(){
 	});	
 }	
 
-var normalize = function(obj){
+var normalize = function(obj, distance){
 	var normalized = {
-       	x: obj.x / (Math.abs(obj.x) + Math.abs(obj.y)),
-       	y: obj.y / (Math.abs(obj.x) + Math.abs(obj.y))
+       	// x: obj.x / (Math.abs(obj.x) + Math.abs(obj.y)),
+       	// y: obj.y / (Math.abs(obj.x) + Math.abs(obj.y))
+       	x: obj.x / distance,
+       	y: obj.y / distance
     }
     return normalized;
 }	
@@ -305,7 +307,7 @@ var chaseTriangle =  function(){
     }
     direction.x = posOfClosestCircle.x - this.position.x;
     direction.y = posOfClosestCircle.y - this.position.y;
-    direction = normalize(direction);
+    direction = normalize(direction, shortestDistance);
     return direction;
 }
 
@@ -324,7 +326,7 @@ var bumpTriangle = function(){
             // console.log(difference);
             
             //Normalize
-            difference = normalize(difference);
+            difference = normalize(difference, d);
             newDirection.x += difference.x * 50; // Calculate vector pointing away from neighbor
             newDirection.y += difference.y * 50;	    	
         	victims[i].nPoke ++;	    		
@@ -356,7 +358,7 @@ var avoidTriangle = function(){
             // console.log(difference);
             
             //Normalize
-            difference = normalize(difference);
+            difference = normalize(difference, d);
             newDirection.x += difference.x;
             newDirection.y += difference.y;
             // console.log(normalized.x);
@@ -552,7 +554,7 @@ var avoidCircle = function(){
             // console.log(difference);
             
             //Normalize
-            difference = normalize(difference);
+            difference = normalize(difference, d);
             newDirection.x += difference.x;
             newDirection.y += difference.y;
             // console.log(normalized.x);
