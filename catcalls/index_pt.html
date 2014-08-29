@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<title>CATCALLS</title>
+		<link href='http://fonts.googleapis.com/css?family=Raleway:100,400,600' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="css/style.css">		
+	</header>
+	<body>
+		<section id="home">
+			<div id="title">
+				<h1><span class="box">C A T C A L L S</span></h1>
+				<p>Uma simulação interativa por <a href="http://gianordoli.com">Gabriel Gianordoli</a>. Originalmente desenvolvida em colaboração com <a href="http://skleedesign.com" target="_blank">Seungkyun Lee</a></p>
+				<p>
+					<span>
+						<a href="index.html">English</a>
+						<a href="index_pt.html">Português</a>
+					</span>
+				</p>
+			</div>
+			<a id="introLink">
+				<img src="img/arrow.png" class="arrow">
+			</a>
+		</section>
+
+		<section id="intro">
+			<div class="column">
+				<h2>Contexto</h2>
+				<p>Eu me mudei pra Nova York 6 meses atrás com minha esposa. No Brasil, discutíamos a relação entre cantada e assédio sexual, então ficávamos imaginando como seriam as coisas em outro país.<br>Acabamos percebendo que a cultura de cada bairro varia muito em NY. É difícil concluir algo sobre o tópico aqui, embora tenhamos notado diferenças com certeza.</p>
+				<p>Esse assunto tem sido bastante discutido no Brasil também, graças a uma <a href="http://thinkolga.com/chega-de-fiu-fiu" target="_blank">campanha</a> que ajudou a espalhar o debate. Uma <a href="http://thinkolga.com/2013/09/09/chega-de-fiu-fiu-resultado-da-pesquisa" target="_blank">pesquisa</a> que é parte dela, conduzida com 7762 mulheres brasileiras, mostra números alarmantes. Por exemplo, 99,6% das mulheres dizem já terem sido vítimas de assédio sexual ao menos uma vez.</p>
+			</div>
+			<div class="column">
+				<h2>O projeto</h2>
+				<p>Uma simulação com dois grupos de elementos, representando assédio sexual.<br>Foi originalmente desenvolvido como um projeto pra aula <a href="http://codeforart.cc" target="_blank">Code For Art class</a>, no <a href="http://www.newschool.edu/parsons/mfa-design-technology" target="_blank">Master of Fine Arts - Design and Technology</a> da Parsons, The New School for Design.<br>Código e conceito originais foram feitos em colaboração com <a href="http://skleedesign.com" target="_blank">Seungkyun Lee</a>, usando <a href="http://www.openframeworks.cc" target="_blank">openFrameworks</a>.<br>A versão publicada nesse site roda em javaScript.</p>
+				<p>Para mais informações sobre a versão original, veja esses <a href="http://gabrielmfadt.wordpress.com/tag/simulation" target="_blank">posts</a>.</p>
+			</div>
+			<a id="simulationLink">
+				<img src="img/arrow.png" class="arrow">
+			</a>
+		</section>
+
+
+		<section id="simulation">
+		<!-- <div id="container" align="center" style="background-color: white; position:absolute"> -->
+			<div id='control'>
+				homens: <span id="nMale">10</span> <input type="range" id="male" min="1" max="30" value="10"/><br>
+				mulheres: <span id="nFemale">20</span> <input type="range" id="female" min="1" max="30" value="20"/><br>
+				<button type="button" id="run">EXECUTAR</button>
+			</div>	
+			<canvas id="myCanvas" width="100" height="100"></canvas>
+		<!-- </div> -->
+		</section>
+
+		<script src="js/jquery-2.0.3.min.js"></script>	<!-- JQuery! -->
+		<script src="js/jquery.panelSnap.js"></script>  <!-- snap scroll -->
+		<script src="js/main.js"></script>		
+	</body>
+</html>

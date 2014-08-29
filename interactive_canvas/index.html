@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<header>
+		<title>Week 3: Interactive Canvas Assignment</title>
+	</header>
+	<body style="background-color: white; margin: 0">
+		<div id="container" align="center" style="background-color: white; position:absolute">
+			<canvas id="myCanvas" width="800" height="600"></canvas>
+			<script type="text/javascript">
+				var canvas = document.getElementById('myCanvas');
+
+				//Check if the browser supports canvas
+				if(canvas.getContext){
+					var ctx = canvas.getContext('2d');					 //Getting canvas context
+
+					/*---------- POSITIONING THE CANVAS ----------*/
+					var screenWidth;
+					var screenHeight;
+					var canvasPosition;					
+					var myContainer = document.getElementById('container');	
+					
+					//Adding listener to change position when the window is resized
+					window.addEventListener('resize', function(){ windowResize(); });
+
+					//Calling function to position the div
+					windowResize();
+
+					function windowResize(){
+						screenWidth = window.innerWidth;
+						screenHeight = window.innerHeight;
+						myContainer.style.width = screenWidth + 'px';
+						// myContainer.style.height = screenHeight + 'px';
+						myContainer.style.top = screenHeight/2 - canvas.height/2 + 'px';
+						canvasPosition = canvas.getBoundingClientRect(); // Gets the canvas position
+					}
+
+					/*---------- RESIZING CANVAS FOR CHROME AND FIREFOX ----------*/
+				    // finally query the various pixel ratios
+			        var devicePixelRatio  = window.devicePixelRatio || 1;
+			        //console.log(devicePixelRatio);
+			        var backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+				                            ctx.mozBackingStorePixelRatio ||
+				                            ctx.msBackingStorePixelRatio ||
+				                            ctx.oBackingStorePixelRatio ||
+				                            ctx.backingStorePixelRatio || 1;
+
+				    var ratio = devicePixelRatio / backingStoreRatio;
+				    //console.log(ratio);
+				    
+				    // upscale the canvas if the two ratios don't match
+				    if (devicePixelRatio !== backingStoreRatio) {
+
+				        var oldWidth = canvas.width;
+				        var oldHeight = canvas.height;
+
+				        canvas.width = oldWidth * ratio;
+				        canvas.height = oldHeight * ratio;
+
+				        canvas.style.width = oldWidth + 'px';
+				        canvas.style.height = oldHeight + 'px';
+
+						ctx.scale(ratio, ratio);				        
+				    }				        
+
+					/*---------- SQUARES ----------*/
+					//Layout vars
+					var squares = new Array();				
+					var nColumns = 40;
+					var nLines = 30;
+
+					//These are going to change according to the mouse position or array index
+					var squareX = 0;
+					var squareY = 0;
+					var squareSize = 10;
+					console.log(squareSize);
+					var squareAngle = 0;
+					var r = 0;
+					var g = 0;
+					
+					//Interaction vars
+					var mouseX = 0;
+					var mouseY = 0;
+					var isPressed = false;
+
+					//Calling the function to draw the first squares
+					drawSquares();
+					
+
+					//var myLoop = setInterval(function(){drawSquares()}, 60);
+
+					function drawSquares(){
+						ctx.clearRect(0, 0, canvas.width, canvas.height); //Clears the background
+
+						for(var i = 0; i < nColumns; i ++){
+							squareX = (i + 1) * canvas.width / ratio /(nColumns + 1);			//Calculating X
+							// console.log(squareX);
+							for(var j = 0; j < nLines; j ++){
+								squareY = (j + 1) * canvas.height / ratio /(nLines + 1);		//Calculating Y
+								squareAngle = calculateAngle(squareX, squareY);	//Calculating angle
+								// console.log(calculateAngle(squareX, squareY));
+
+								//Calculating the distance
+								var dist;
+								if( (mouseY - squareY) == 0 ){
+									dist = (mouseX - squareX) / Math.cos( squareAngle );
+								}else{
+									dist = (mouseY - squareY) / Math.sin( squareAngle );
+								}
+								
+								//Setting new squareSize relative to the distance
+								if(isPressed){
+									squareSize = 8 + dist/40;
+								}else{
+									squareSize = 8;
+								}
+
+								//Setting color according to position
+								r = Math.floor(i*255/nColumns);
+								g = Math.floor(j*350/nLines);
+								
+
+								ctx.strokeStyle = 'rgb('+ r +', 150,' + g + ')';	
+								//ctx.strokeStyle = 'black';	
+
+								ctx.save();		//Like Processing 'pushMatrix()'
+								
+									ctx.translate(squareX, squareY);
+									ctx.rotate(squareAngle);
+									ctx.strokeRect(-squareSize/2, -squareSize/2, squareSize, squareSize);	
+								ctx.restore();	//Like Processing 'popMatrix()'
+							}
+						}
+					}
+
+					/*---------- LISTENERS ----------*/
+					canvas.addEventListener('mousemove', function(evt){
+						// console.log(e.x);
+						// console.log(e.y);
+						getMousePos(evt);
+						drawSquares();						
+						// console.log(mouseX + ", " + mouseY);
+					});
+
+					canvas.addEventListener('mousedown', function(evt){
+						isPressed = true;	// Set my "isPressed" variable to true
+						getMousePos(evt);
+						drawSquares();						
+					}, false);
+
+					canvas.addEventListener('mouseup', function(evt){
+						isPressed = false;	// Set my "isPressed" variable to false
+						getMousePos(evt);
+						drawSquares();						
+					}, false);
+
+					function getMousePos(evt){
+						mouseX = evt.x - canvasPosition.left;
+						mouseY = evt.y - canvasPosition.top;
+					}
+
+					function calculateAngle(x, y){
+						var angle = Math.atan2(mouseY - y, mouseX - x);
+						// console.log(mouseY);
+						return angle;
+					}
+
+
+				//If the browser doesn't support canvas
+				}else{
+					alert('Your browser doesn\'t support canvas');
+				}
+			</script>
+		</div>
+	</body>
+</html>
